@@ -1,0 +1,11 @@
+# Não copiar para a imagem: pesado, gerado, ou específico da máquina.
+.venv/
+data/
+outputs/
+wandb/
+.git/
+.idea/
+__pycache__/
+*.pyc
+.pytest_cache/
+*.egg-info/

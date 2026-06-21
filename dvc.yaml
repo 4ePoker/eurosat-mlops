@@ -1,0 +1,47 @@
+# Pipeline DVC: o PROCESSO versionado, como um DAG de etapas.
+#
+# Cada etapa declara:
+#   deps  -> de que depende (código + dados). Se mudarem, a etapa re-executa.
+#   params-> parâmetros (de params.yaml) que a afetam.
+#   outs  -> o que produz (o DVC versiona estes outputs, como faz com os dados).
+#
+# `dvc repro` corre só o que ficou desatualizado (cache inteligente) e grava o
+# estado exato em dvc.lock — é a reprodutibilidade do *processo*.
+#
+# Forçamos hydra.run.dir para um caminho FIXO (em vez do timestamp por omissão)
+# para o DVC poder rastrear os outputs. wandb.mode=disabled: o repro não depende
+# da cloud.
+stages:
+  train:
+    cmd: >
+      PYTHONPATH=src python -m eurosat.training.train
+      model=${train.model}
+      training.epochs=${train.epochs}
+      data.batch_size=${train.batch_size}
+      training.limit_train_batches=${train.limit_train_batches}
+      training.limit_val_batches=${train.limit_val_batches}
+      data.num_workers=2 wandb.mode=disabled
+      hydra.run.dir=models/train
+    deps:
+      - src/eurosat
+      - data/raw/eurosat
+    params:
+      - train
+    outs:
+      - models/train/best_model.pt
+
+  evaluate:
+    cmd: >
+      PYTHONPATH=src python -m eurosat.evaluation.run
+      checkpoint=models/train/best_model.pt
+      limit_batches=${evaluate.limit_batches}
+      data.num_workers=2 wandb.mode=disabled
+      hydra.run.dir=models/eval
+    deps:
+      - src/eurosat
+      - models/train/best_model.pt
+      - data/raw/eurosat
+    params:
+      - evaluate
+    outs:
+      - models/eval/confusion_matrix.png

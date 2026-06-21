@@ -1,0 +1,4 @@
+[core]
+    remote = localremote
+['remote "localremote"']
+    url = /media/ssd-externo/projetos/eurosat-dvc-remote

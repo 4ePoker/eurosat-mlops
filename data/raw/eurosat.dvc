@@ -1,0 +1,6 @@
+outs:
+- md5: 3c03c29246f4293ba760f912da77a7be.dir
+  size: 186124927
+  nfiles: 27001
+  hash: md5
+  path: eurosat

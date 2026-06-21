@@ -1,0 +1,25 @@
+# Dados: o CONTEÚDO é gerido pelo DVC (ignorado pelos data/**/.gitignore que o
+# DVC gera). Os ponteiros .dvc e o dvc.lock SÃO versionados pelo Git.
+/data/processed/*
+
+# Saídas de runs (Hydra) e artefactos
+/outputs/
+/wandb/
+
+# DVC: cache local de dados — não vai para o Git (vai para o remote DVC)
+/.dvc/cache
+/.dvc/tmp
+
+# IDE
+.idea/
+
+# Subprodutos das runs do pipeline DVC (os outs reais são geridos pelo DVC)
+/models/**/.hydra/
+/models/**/*.log
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+*.egg-info/
+.pytest_cache/

@@ -1,0 +1,8 @@
+# Backbone convolucional clássico, robusto e rápido. Bom ponto de partida.
+_target_: eurosat.models.factory.build_model
+
+model_name: resnet50
+num_classes: 10
+pretrained: true
+drop_rate: 0.0
+freeze_backbone: false

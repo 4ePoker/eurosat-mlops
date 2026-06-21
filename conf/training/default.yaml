@@ -1,0 +1,17 @@
+# Hiperparâmetros do treino. Tudo aqui é "o que muda entre experiências".
+epochs: 5
+lr: 3.0e-4
+weight_decay: 1.0e-4
+label_smoothing: 0.0      # regularização leve; >0 suaviza os alvos one-hot
+optimizer: adamw          # adamw | sgd
+scheduler: cosine         # cosine | none
+amp: true                 # mixed precision (só efetiva em GPU)
+device: auto              # auto | cpu | cuda
+log_every_n_steps: 20     # logar loss/acc no W&B a cada N batches (curvas suaves)
+
+# Limites para smoke-tests rápidos (treinar poucos batches). null = dataset todo.
+limit_train_batches: null
+limit_val_batches: null
+
+# Guardar o melhor modelo (por val acc) no diretório da run.
+save_checkpoint: true

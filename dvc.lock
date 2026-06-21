@@ -1,0 +1,57 @@
+schema: '2.0'
+stages:
+  train:
+    cmd: "PYTHONPATH=src python -m eurosat.training.train model=resnet50 training.epochs=1
+      data.batch_size=32 training.limit_train_batches=15 training.limit_val_batches=8
+      data.num_workers=2 wandb.mode=disabled hydra.run.dir=models/train\n"
+    deps:
+    - path: data/raw/eurosat
+      hash: md5
+      md5: 3c03c29246f4293ba760f912da77a7be.dir
+      size: 186124927
+      nfiles: 27001
+    - path: src/eurosat
+      hash: md5
+      md5: d0ccf825a8a412d238ab2fa7d306f70c.dir
+      size: 80858
+      nfiles: 30
+    params:
+      params.yaml:
+        train:
+          model: resnet50
+          epochs: 1
+          batch_size: 32
+          limit_train_batches: 15
+          limit_val_batches: 8
+    outs:
+    - path: models/train/best_model.pt
+      hash: md5
+      md5: 3eb3bea52ba3f49c6b6e055016748288
+      size: 94436689
+  evaluate:
+    cmd: "PYTHONPATH=src python -m eurosat.evaluation.run checkpoint=models/train/best_model.pt
+      limit_batches=15 data.num_workers=2 wandb.mode=disabled hydra.run.dir=models/eval\n"
+    deps:
+    - path: data/raw/eurosat
+      hash: md5
+      md5: 3c03c29246f4293ba760f912da77a7be.dir
+      size: 186124927
+      nfiles: 27001
+    - path: models/train/best_model.pt
+      hash: md5
+      md5: 3eb3bea52ba3f49c6b6e055016748288
+      size: 94436689
+    - path: src/eurosat
+      hash: md5
+      md5: d0ccf825a8a412d238ab2fa7d306f70c.dir
+      size: 80858
+      nfiles: 30
+    params:
+      params.yaml:
+        evaluate:
+          limit_batches: 15
+    outs:
+    - path: models/eval/confusion_matrix.png
+      hash: md5
+      md5: 002d73af1cdcc58824e49991df7713c5
+      size: 124932

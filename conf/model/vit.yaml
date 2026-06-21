@@ -1,0 +1,9 @@
+# Vision Transformer pré-treinado a 224x224 (daí o image_size=224 nos dados).
+# Costuma precisar de mais dados/épocas que a ResNet, mas atinge accuracy alta.
+_target_: eurosat.models.factory.build_model
+
+model_name: vit_base_patch16_224
+num_classes: 10
+pretrained: true
+drop_rate: 0.1
+freeze_backbone: false

@@ -1,0 +1,22 @@
+# Config RAIZ. A lista `defaults` é a composição do Hydra: ele junta os
+# ficheiros indicados (data/eurosat.yaml, model/resnet50.yaml, ...) num único
+# objeto `cfg`. Trocar qualquer um na linha de comando: `python -m
+# eurosat.training.train model=vit training.epochs=10 wandb.mode=online`
+defaults:
+  - data: eurosat
+  - model: resnet50
+  - training: default
+  - wandb: default
+  - _self_
+
+seed: 42
+
+# Usados pela avaliação (eurosat.evaluation.run):
+checkpoint: null          # caminho para best_model.pt a avaliar
+limit_batches: null       # limitar batches de teste (para smoke-tests)
+
+# Diretório de saída de cada run (Hydra cria automaticamente um por execução,
+# com timestamp, guardando lá a config exata usada -> reprodutibilidade).
+hydra:
+  run:
+    dir: outputs/${now:%Y-%m-%d}/${now:%H-%M-%S}

@@ -1,0 +1,13 @@
+# Parâmetros do pipeline DVC. O DVC versiona este ficheiro e re-executa uma
+# etapa sempre que os seus parâmetros mudarem. Valores propositadamente
+# reduzidos para o `dvc repro` ser rápido (demonstração); para um treino a sério
+# usa-se o entrypoint diretamente com a config Hydra completa.
+train:
+  model: resnet50
+  epochs: 1
+  batch_size: 32
+  limit_train_batches: 15
+  limit_val_batches: 8
+
+evaluate:
+  limit_batches: 15

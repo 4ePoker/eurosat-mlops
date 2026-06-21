@@ -1,0 +1,13 @@
+# Config Hydra do data module. O `_target_` diz ao Hydra que classe instanciar;
+# os restantes campos são passados como argumentos ao construtor.
+# Mais tarde, no entrypoint de treino, far-se-á: hydra.utils.instantiate(cfg.data)
+_target_: eurosat.data.datamodule.EuroSATDataModule
+
+data_dir: data/raw
+image_size: 224
+batch_size: 64
+num_workers: 4
+val_fraction: 0.15
+test_fraction: 0.15
+seed: 42
+download: true

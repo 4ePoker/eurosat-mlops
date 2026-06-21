@@ -1,0 +1,9 @@
+# Weights & Biases. mode controla onde vão os logs:
+#   disabled -> não regista nada (para aprender a mecânica sem conta)
+#   offline  -> grava localmente em ./wandb, sincronizas depois com `wandb sync`
+#   online   -> envia para a cloud do W&B (requer `wandb login`)
+project: eurosat-mlops
+entity: null              # a tua conta/equipa W&B (null = a default do login)
+mode: online
+name: null                # nome da run (null = o W&B gera um)
+tags: []
