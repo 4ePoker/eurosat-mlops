@@ -51,6 +51,21 @@ The goal is to show a *production-minded* workflow. The guiding principle:
 | **Weights & Biases** | Experiment tracking | Live, comparable dashboards of metrics/curves/artifacts |
 | **DVC** | Data & pipeline versioning | "Git for data": tiny pointers in Git, large data in remote storage; reproducible `dvc.yaml` pipeline |
 
+## Exploratory Data Analysis
+
+Before modelling, the raw data is explored in
+[`notebooks/01_eda.ipynb`](notebooks/01_eda.ipynb): class meanings, balance,
+image format, sample grids, and per-channel pixel statistics. Each finding is
+tied back to a concrete pipeline decision (stratified split, macro-F1,
+resize/normalization).
+
+![Class distribution](assets/eda/class_distribution.png)
+
+Key findings: 10 land-use classes; mildly imbalanced (1.5×, smallest class
+Pasture); 64×64 RGB uint8 images; and per-channel statistics that differ from
+ImageNet — which is precisely why ImageNet-normalized inputs are not centered at
+zero, an expected consequence of reusing a pretrained backbone.
+
 ## Project structure
 
 ```
@@ -62,6 +77,7 @@ The goal is to show a *production-minded* workflow. The guiding principle:
 │   ├── training/          # engine (train/eval loops), metrics, entrypoint
 │   ├── evaluation/        # metrics report + confusion matrix
 │   └── utils/             # reproducibility (seeding)
+├── notebooks/             # 01_eda.ipynb — exploratory data analysis
 ├── tests/                 # 17 unit tests focused on the data pipeline
 ├── dvc.yaml               # reproducible pipeline: train → evaluate
 ├── params.yaml            # pipeline parameters tracked by DVC
